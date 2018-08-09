@@ -14,6 +14,7 @@ $ip = getenv('MYSQL_REMOTE');
 $user = getenv('MYSQL_USER');
 $pwd = getenv('MYSQL_PWD');
 $data = getenv('MYSQL_DATA');
+var_dump($data);die;
 $con = $mysql->connect($ip,$user,$pwd,$data);
 
 //$result = mysqli_query($con,"SELECT * FROM data");
