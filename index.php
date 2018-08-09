@@ -36,7 +36,7 @@ if(!empty($input)){
   $data['text'] = $input['message']['text'];
   $data['parse_mode'] = 'Markdown';
 }else{
-  echo '无数据';
+  echo 'ok';
 }
 //$input = json_decode($input);
 
