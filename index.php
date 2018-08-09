@@ -1,5 +1,5 @@
 <?php
-require __DIR__.'./vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 require_once ('Base.class.php');
 require_once ('Mysql.class.php');
 require_once ('Telegram.class.php');
