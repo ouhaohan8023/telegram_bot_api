@@ -3,8 +3,14 @@ require __DIR__.'/vendor/autoload.php';
 require_once ('Base.class.php');
 require_once ('Mysql.class.php');
 require_once ('Telegram.class.php');
+require_once ('Tulin.class.php');
 
 $base = new Base();
+
+//$msg = '早上好';
+//$tu = new Tulin();
+//$data = $tu->TuLin($msg);
+//var_dump($data);die;
 
 //echo '<pre>';
 //var_dump((array)json_decode('{"update_id":762553299,"message":{"message_id":94,"from":{"id":580152100,"is_bot":false,"first_name":"Oscar","username":"OscarHan","language_code":"en-US"},"chat":{"id":-316804829,"title":"\u673a\u5668\u4eba\u6d4b\u8bd5","type":"group","all_members_are_administrators":true},"date":1533803419,"text":"\/76","entities":[{"offset":0,"length":3,"type":"bot_command"}]}}'));
@@ -37,9 +43,21 @@ if(!empty($input)){
   $msg['action'] = 'typing';
   $tg->telegramFunction($method,$msg);
   // 返回接收到的text
+//  $method = 'sendMessage';
+//  $backMsg['chat_id'] = $input['message']->chat->id;
+//  $backMsg['text'] = $input['message']->text;
+//  $backMsg['parse_mode'] = 'Markdown';
+//  $tg->telegramFunction($method,$backMsg);
+//  $base->log->warning('完成');
+
+  // 图灵
+  $msg = $input['message']->text;
+  $tu = new Tulin();
+  $tu_msg = $tu->TuLin($msg);
+
   $method = 'sendMessage';
   $backMsg['chat_id'] = $input['message']->chat->id;
-  $backMsg['text'] = $input['message']->text;
+  $backMsg['text'] = $tu_msg;
   $backMsg['parse_mode'] = 'Markdown';
   $tg->telegramFunction($method,$backMsg);
   $base->log->warning('完成');
