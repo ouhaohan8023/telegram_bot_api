@@ -4,7 +4,7 @@ require_once ('Base.class.php');
 require_once ('Mysql.class.php');
 require_once ('Telegram.class.php');
 
-//$base = new Base();
+$base = new Base();
 //var_dump(getenv('APP'));
 //die;
 
@@ -14,7 +14,7 @@ $ip = getenv('MYSQL_REMOTE');
 $user = getenv('MYSQL_USER');
 $pwd = getenv('MYSQL_PWD');
 $data = getenv('MYSQL_DATA');
-var_dump($data);die;
+//var_dump($data);die;
 $con = $mysql->connect($ip,$user,$pwd,$data);
 
 //$result = mysqli_query($con,"SELECT * FROM data");
