@@ -54,6 +54,8 @@ if(!empty($input)){
   $msg = $input['message']->text;
   $tu = new Tulin();
   $tu_msg = $tu->TuLin($msg);
+
+  $base->log->warning($msg);
   $base->log->warning($tu_msg);
 
   $method = 'sendMessage';
