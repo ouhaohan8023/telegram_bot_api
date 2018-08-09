@@ -38,9 +38,12 @@ if(!empty($input)){
   $tg->telegramFunction($method,$msg);
   // 返回接收到的text
   $method = 'sendMessage';
-  $data['chat_id'] = $input['message']->chat->id;
-  $data['text'] = $input['message']->text;
-  $data['parse_mode'] = 'Markdown';
+  $backMsg['chat_id'] = $input['message']->chat->id;
+  $backMsg['text'] = $input['message']->text;
+  $backMsg['parse_mode'] = 'Markdown';
+  $tg->telegramFunction($method,$backMsg);
+  $base->log->warning('完成');
+
 }else{
   $base->log->warning('无数据访问');
   echo 'ok';
