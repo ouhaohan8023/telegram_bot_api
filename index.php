@@ -54,6 +54,7 @@ if(!empty($input)){
   $msg = $input['message']->text;
   $tu = new Tulin();
   $tu_msg = $tu->TuLin($msg);
+  $base->log->warning($tu_msg);
 
   $method = 'sendMessage';
   $backMsg['chat_id'] = $input['message']->chat->id;
