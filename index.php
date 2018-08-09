@@ -5,15 +5,15 @@ require_once ('Mysql.class.php');
 require_once ('Telegram.class.php');
 
 //$base = new Base();
-var_dump(getenv('APP'));
-die;
+//var_dump(getenv('APP'));
+//die;
 
 // 链接数据库
 $mysql = new Mysql();
-$ip = '172.16.110.104';
-$user = 'root';
-$pwd = 'root';
-$data = 'telegram';
+$ip = getenv('MYSQL_REMOTE');
+$user = getenv('MYSQL_USER');
+$pwd = getenv('MYSQL_PWD');
+$data = getenv('MYSQL_DATA');
 $con = $mysql->connect($ip,$user,$pwd,$data);
 
 //$result = mysqli_query($con,"SELECT * FROM data");
