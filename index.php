@@ -26,8 +26,9 @@ $tg = new Telegram();
 $input = $tg->getParams();
 
 if(!empty($input)){
-  $base->log->warning($input);
-  $base->log->warning($input);
+  $base->log->warning('有效访问');
+  $base->log->warning(json_encode($input));
+  $base->log->warning($input['message']['chat']['id']);
   // 接收到数据，反馈输入中
   // 后期需要验证是否为tg数据
   $method = 'sendChatAction';
