@@ -5,6 +5,7 @@ require_once ('Mysql.class.php');
 require_once ('Telegram.class.php');
 
 $base = new Base();
+
 //var_dump(getenv('APP'));
 //die;
 
@@ -23,7 +24,10 @@ $con = $mysql->connect($ip,$user,$pwd,$data);
 //$input = file_get_contents('php://input', 'r');
 $tg = new Telegram();
 $input = $tg->getParams();
+
 if(!empty($input)){
+  $base->log->warning($input);
+  $base->log->warning($input);
   // 接收到数据，反馈输入中
   // 后期需要验证是否为tg数据
   $method = 'sendChatAction';
@@ -36,6 +40,7 @@ if(!empty($input)){
   $data['text'] = $input['message']['text'];
   $data['parse_mode'] = 'Markdown';
 }else{
+  $base->log->warning('无数据访问');
   echo 'ok';
 }
 //$input = json_decode($input);

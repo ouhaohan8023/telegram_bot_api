@@ -1,15 +1,22 @@
 <?php
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 /**
  * Class Base
  * 基础类
  */
 class Base{
 
+  public $log;
   public function __construct()
   {
     $dotenv = new \Dotenv\Dotenv(__DIR__);
     $dotenv->load();
+
+    $this->log = new Logger('D');
+    $this->log->pushHandler(new StreamHandler('./my.log', Logger::WARNING));
+
   }
 
   /**
