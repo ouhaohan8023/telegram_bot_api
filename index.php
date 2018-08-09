@@ -6,7 +6,8 @@ require_once ('Telegram.class.php');
 
 $base = new Base();
 
-//var_dump(getenv('APP'));
+//echo '<pre>';
+//var_dump((array)json_decode('{"update_id":762553299,"message":{"message_id":94,"from":{"id":580152100,"is_bot":false,"first_name":"Oscar","username":"OscarHan","language_code":"en-US"},"chat":{"id":-316804829,"title":"\u673a\u5668\u4eba\u6d4b\u8bd5","type":"group","all_members_are_administrators":true},"date":1533803419,"text":"\/76","entities":[{"offset":0,"length":3,"type":"bot_command"}]}}'));
 //die;
 
 // 链接数据库
@@ -28,17 +29,17 @@ $input = $tg->getParams();
 if(!empty($input)){
   $base->log->warning('有效访问');
   $base->log->warning(json_encode($input));
-  $base->log->warning($input['message']['chat']['id']);
+  $base->log->warning($input['message']->chat->id);
   // 接收到数据，反馈输入中
   // 后期需要验证是否为tg数据
   $method = 'sendChatAction';
-  $msg['chat_id'] = $input['message']['chat']['id'];
+  $msg['chat_id'] = $input['message']->chat->id;
   $msg['action'] = 'typing';
   $tg->telegramFunction($method,$msg);
   // 返回接收到的text
   $method = 'sendMessage';
-  $data['chat_id'] = $input['message']['chat']['id'];
-  $data['text'] = $input['message']['text'];
+  $data['chat_id'] = $input['message']->chat->id;
+  $data['text'] = $input['message']->text;
   $data['parse_mode'] = 'Markdown';
 }else{
   $base->log->warning('无数据访问');

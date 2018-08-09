@@ -42,37 +42,6 @@ class Base{
     return $output;
   }
 
-  public function env($key, $default = null)
-  {
-    $value = getenv($key);
-
-    if ($value === false) {
-      return $this->value($default);
-    }
-
-    var_dump(333);die;
-    switch (strtolower($value)) {
-      case 'true':
-      case '(true)':
-        return true;
-      case 'false':
-      case '(false)':
-        return false;
-      case 'empty':
-      case '(empty)':
-        return '';
-      case 'null':
-      case '(null)':
-        return;
-    }
-
-    return $value;
-  }
-
-  public function value($value)
-  {
-    return $value instanceof Closure ? $value() : $value;
-  }
 }
 
 ?>
