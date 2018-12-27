@@ -63,10 +63,10 @@ if(!empty($input)){
     case 'Currency':
       $arr = explode('&',$input['message']->text);
       $numResult = sprintf('%.2f',floatval($arr[1])*(floatval($arr[2])-floatval($arr[3]))/floatval($arr[3]));
-      $systemMsg = "# 现金：".$arr[1]." \r\n";
+      $systemMsg = "# 现金：".$arr[1]."元 \r\n";
       $systemMsg .= "# 高汇率：".$arr[2]." \r\n";
       $systemMsg .= "# 低汇率：".$arr[3]." \r\n";
-      $systemMsg .= "# 消耗：".$numResult;
+      $systemMsg .= "# 消耗：".$numResult."元 ";
       break;
     default:
       // 图灵
