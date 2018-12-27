@@ -50,17 +50,38 @@ if(!empty($input)){
 //  $tg->telegramFunction($method,$backMsg);
 //  $base->log->warning('完成');
 
-  // 图灵
-  $msg = $input['message']->text;
-  $tu = new Tulin();
-  $tu_msg = $tu->TuLin($msg);
+  // 判断识别符&
+  if(substr($input['message']->text,0,1)=='&'){
+    //&50000&7.62&7.48
+    $case = 'Currency';
+  }else{
+    $case = '';
+  }
+
+  switch ($case)
+  {
+    case 'Currency':
+      $arr = explode('&',$input['message']->text);
+      $numResult = sprintf('%.2f',floatval($arr[1])*(floatval($arr[2])-floatval($arr[3]))/floatval($arr[3]));
+      $systemMsg = '# 现金：'.$arr[1];
+      $systemMsg .= '# 高汇率：'.$arr[2];
+      $systemMsg .= '# 低汇率：'.$arr[3];
+      $systemMsg .= '# 消耗：'.$numResult;
+      break;
+    default:
+      // 图灵
+      $msg = $input['message']->text;
+      $tu = new Tulin();
+      $systemMsg = $tu->TuLin($msg);
+  }
+
 
   $base->log->warning($msg);
-  $base->log->warning($tu_msg);
+  $base->log->warning($systemMsg);
 
   $method = 'sendMessage';
   $backMsg['chat_id'] = $input['message']->chat->id;
-  $backMsg['text'] = $tu_msg;
+  $backMsg['text'] = $systemMsg;
   $backMsg['parse_mode'] = 'Markdown';
   $tg->telegramFunction($method,$backMsg);
   $base->log->warning('完成');
