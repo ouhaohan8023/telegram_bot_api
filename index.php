@@ -5,6 +5,10 @@ require_once ('Mysql.class.php');
 require_once ('Telegram.class.php');
 require_once ('Tulin.class.php');
 
+// 方法定义
+$commandFunc = [
+    'help',//帮助
+];
 $base = new Base();
 
 //$msg = '早上好';
@@ -22,84 +26,113 @@ $ip = getenv('MYSQL_REMOTE');
 $user = getenv('MYSQL_USER');
 $pwd = getenv('MYSQL_PWD');
 $data = getenv('MYSQL_DATA');
-//var_dump($data);die;
 $con = $mysql->connect($ip,$user,$pwd,$data);
-
-//$result = mysqli_query($con,"SELECT * FROM data");
-//var_dump($result);
-// 获取数据
-//$input = file_get_contents('php://input', 'r');
 $tg = new Telegram();
 $input = $tg->getParams();
 
 if(!empty($input)){
-  $base->log->warning('有效访问');
-  $base->log->warning(json_encode($input));
-  $base->log->warning($input['message']->chat->id);
+  $base->log->info('有效访问');
+  $base->log->info(json_encode($input));
+  $base->log->info($input['message']->chat->id);
   // 接收到数据，反馈输入中
   // 后期需要验证是否为tg数据
   $method = 'sendChatAction';
   $msg['chat_id'] = $input['message']->chat->id;
   $msg['action'] = 'typing';
   $tg->telegramFunction($method,$msg);
-  // 返回接收到的text
-//  $method = 'sendMessage';
-//  $backMsg['chat_id'] = $input['message']->chat->id;
-//  $backMsg['text'] = $input['message']->text;
-//  $backMsg['parse_mode'] = 'Markdown';
-//  $tg->telegramFunction($method,$backMsg);
-//  $base->log->warning('完成');
 
-  // 判断识别符&
-  if(substr($input['message']->text,0,1)=='&'){
-    //&50000&7.62&7.48
-    $case = 'Currency';
-  }else{
-    $case = '';
-  }
+  $firstStr = substr($input['message']->text,0,1);
 
-  switch ($case)
-  {
-    case 'Currency':
-      $arr = explode('&',$input['message']->text);
-      $numResult = sprintf('%.2f',floatval($arr[1])*(floatval($arr[2])-floatval($arr[3]))/floatval($arr[3]));
-      $systemMsg = "# 现金：".$arr[1]."元 \r\n";
-      $systemMsg .= "# 高汇率：".$arr[2]." \r\n";
-      $systemMsg .= "# 低汇率：".$arr[3]." \r\n";
-      $systemMsg .= "# 消耗：".$numResult."元 ";
-      $btn = [
-          'inline_keyboard' => [
-              [
-                  [
-                      'text' => 'go',
-                      'callback_data' => 'hello'
-                  ]
-              ]
-          ]
-      ];
-      $backMsg['reply_markup'] = json_encode($btn);
-
+  switch ($firstStr) {
+    case '/':
+      // 机器人命令，获取对应命令操作
+      $command = ltrim($input['message'],'/');
+      if (in_array($command,$commandFunc)) {
+        doCommand($command);
+      }
+      break;
+    case '&':
+      doCount($input['message']->text);
       break;
     default:
       // 图灵
-      $msg = $input['message']->text;
+      $_msg = $input['message']->text;
       $tu = new Tulin();
-      $systemMsg = $tu->TuLin($msg);
+      $systemMsg = $tu->TuLin($_msg);
   }
 
-  $base->log->warning($msg);
-  $base->log->warning($systemMsg);
+//  $base->log->warning($msg);
+  $base->log->info($systemMsg);
 
   $method = 'sendMessage';
   $backMsg['chat_id'] = $input['message']->chat->id;
   $backMsg['text'] = $systemMsg;
   $backMsg['parse_mode'] = 'Markdown';
   $tg->telegramFunction($method,$backMsg);
-  $base->log->warning('完成');
+  $base->log->info('完成');
 
 }else{
   $base->log->warning('无数据访问');
   echo 'ok';
 }
-//$input = json_decode($input);
 
+function doCommand($command)
+{
+  switch ($command) {
+    case 'help':
+      $systemMsg = "# 1. 计算人民币消耗：公式(人民币*(高汇率-低汇率)/低汇率) \r\n";
+      $systemMsg .= "# 使用方法：&1&人民币&高汇率&低汇率 \r\n";
+      $systemMsg .= "# 例如：&1&20000&7.62&7.48 \r\n";
+      $systemMsg .= "# 2. 计算话费Peso盈利：公式 ((Peso/话费设置汇率)-(Peso/人民币换Peso汇率))*（1-微信费率) ";
+      $systemMsg .= "# 使用方法：&2&Peso&话费设置汇率&人民币换Peso汇率 \r\n";
+      $systemMsg .= "# 例如：&2&500&7.3&7.5 \r\n";
+      break;
+    default:
+      $systemMsg = '';
+  }
+  return $systemMsg;
+}
+
+/**
+ * 处理计算逻辑
+ * @param $command $string
+ * @return string
+ */
+function doCount($command)
+{
+  $arr = explode('&',$command);
+  switch ($arr[1]) {
+    case '1':
+      // 人民币
+      $numResult = sprintf('%.2f',floatval($arr[2])*(floatval($arr[3])-floatval($arr[4]))/floatval($arr[4]));
+      $systemMsg = "# 现金：".$arr[2]."元 \r\n";
+      $systemMsg .= "# 高汇率：".$arr[3]." \r\n";
+      $systemMsg .= "# 低汇率：".$arr[4]." \r\n";
+      $systemMsg .= "# 消耗：".$numResult."元 ";
+      break;
+    case '2':
+      // peso话费盈利
+      $numResult = sprintf('%.2f',(((floatval($arr[2]))/floatval($arr[3]))-((floatval($arr[2]))/floatval($arr[4])))*0.996);
+      $systemMsg = "# Peso：".$arr[2]."元 \r\n";
+      $systemMsg .= "# 话费设置汇率：".$arr[3]." \r\n";
+      $systemMsg .= "# 人民币换Peso汇率：".$arr[4]." \r\n";
+      $systemMsg .= "# 盈利：".$numResult."元 ";
+      break;
+    default:
+      $systemMsg = '';
+  }
+  return $systemMsg;
+
+  // 按钮
+//  $btn = [
+//      'inline_keyboard' => [
+//          [
+//              [
+//                  'text' => 'go',
+//                  'callback_data' => 'hello'
+//              ]
+//          ]
+//      ]
+//  ];
+//  $backMsg['reply_markup'] = json_encode($btn);
+}
