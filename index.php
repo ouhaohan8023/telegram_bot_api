@@ -67,12 +67,17 @@ if(!empty($input)){
       $systemMsg .= "# 高汇率：".$arr[2]." \r\n";
       $systemMsg .= "# 低汇率：".$arr[3]." \r\n";
       $systemMsg .= "# 消耗：".$numResult."元 ";
-      $backMsg['reply_markup'] = [
+      $btn = [
           'inline_keyboard' => [
-              'text' => 'go',
-              'url' => 'www.google.com'
+              [
+                  [
+                      'text' => 'go',
+                      'url' => 'www.google.com'
+                  ]
+              ]
           ]
       ];
+      $backMsg['reply_markup'] = json_encode($btn);
 
       break;
     default:
