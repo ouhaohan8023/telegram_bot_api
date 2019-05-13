@@ -72,7 +72,7 @@ if(!empty($input)){
               [
                   [
                       'text' => 'go',
-                      'url' => 'www.google.com'
+                      'callback_data' => 'hello'
                   ]
               ]
           ]
@@ -86,7 +86,6 @@ if(!empty($input)){
       $tu = new Tulin();
       $systemMsg = $tu->TuLin($msg);
   }
-
 
   $base->log->warning($msg);
   $base->log->warning($systemMsg);
