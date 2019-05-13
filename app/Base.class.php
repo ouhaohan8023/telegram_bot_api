@@ -1,4 +1,5 @@
 <?php
+namespace App;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;

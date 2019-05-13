@@ -1,4 +1,5 @@
 <?php
+namespace App;
 /**
  * 数据库类
  */
