@@ -61,7 +61,7 @@ if(!empty($input)){
       $systemMsg = $tu->TuLin($_msg);
   }
 
-//  $base->log->warning($msg);
+//  $base->log->info($msg);
   $base->log->info($systemMsg);
 
   $method = 'sendMessage';
@@ -72,7 +72,7 @@ if(!empty($input)){
   $base->log->info('完成');
 
 }else{
-  $base->log->warning('无数据访问');
+  $base->log->info('无数据访问');
   echo 'ok';
 }
 

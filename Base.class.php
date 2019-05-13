@@ -15,7 +15,7 @@ class Base{
     $dotenv->load();
 
     $this->log = new Logger('D');
-    $this->log->pushHandler(new StreamHandler('./my.log', Logger::WARNING));
+    $this->log->pushHandler(new StreamHandler('./my.log', Logger::INFO));
 
   }
 
