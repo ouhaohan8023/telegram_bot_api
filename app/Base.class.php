@@ -3,6 +3,7 @@ namespace App;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Dotenv\Dotenv;
 /**
  * Class Base
  * 基础类
@@ -12,7 +13,7 @@ class Base{
   public $log;
   public function __construct()
   {
-    $dotenv = new \Dotenv\Dotenv(__DIR__);
+    $dotenv = new Dotenv('../');
     $dotenv->load();
 
     $this->log = new Logger('D');
