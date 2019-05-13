@@ -12,8 +12,8 @@ class Base{
   public $log;
   public function __construct()
   {
-    $dotenv = new \Dotenv\Dotenv(__DIR__);
-    $dotenv->load();
+//    $dotenv = new \Dotenv\Dotenv(__DIR__);
+//    $dotenv->load();
 
     $this->log = new Logger('D');
     $this->log->pushHandler(new StreamHandler('./my.log', Logger::INFO));
