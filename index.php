@@ -6,11 +6,6 @@ use App\Tulin;
 use App\Base;
 use Dotenv\Dotenv;
 
-//require_once('Base.class.php');
-//require_once('Mysql.class.php');
-//require_once('Telegram.class.php');
-//require_once('Tulin.class.php');
-
 // 方法定义
 $commandFunc = [
     'help',//帮助
@@ -19,15 +14,6 @@ $dotenv = new Dotenv(__DIR__);
 $dotenv->load();
 
 $base = new Base();
-
-//$msg = '早上好';
-//$tu = new Tulin();
-//$data = $tu->TuLin($msg);
-//var_dump($data);die;
-
-//echo '<pre>';
-//var_dump((array)json_decode('{"update_id":762553299,"message":{"message_id":94,"from":{"id":580152100,"is_bot":false,"first_name":"Oscar","username":"OscarHan","language_code":"en-US"},"chat":{"id":-316804829,"title":"\u673a\u5668\u4eba\u6d4b\u8bd5","type":"group","all_members_are_administrators":true},"date":1533803419,"text":"\/76","entities":[{"offset":0,"length":3,"type":"bot_command"}]}}'));
-//die;
 
 // 链接数据库
 $mysql = new Mysql();
@@ -85,6 +71,12 @@ if(!empty($input)){
   echo 'ok';
 }
 
+/**
+ * 处理 /命令
+ * @param $command
+ * @param $func
+ * @return string
+ */
 function doCommand($command,$func)
 {
   if (!in_array($command,$func)) {

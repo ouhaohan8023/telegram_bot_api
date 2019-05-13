@@ -27,11 +27,8 @@ class Tulin extends Base {
     $data['userInfo']['userId'] = $this->user;
 
     $postData = json_encode($data);
-//    var_dump($postData);die;
     $back = $this->curlGet($this->url,'post',$postData);
     $backData = json_decode($back);
-//    echo '<pre>';
-//    var_dump($backData->results[0]->values->text);die;
     return $backData->results[0]->values->text;
   }
 

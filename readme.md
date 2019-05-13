@@ -6,3 +6,13 @@
 ## 操作
 1. 绑定Webhook
 2. 如果日志没有记录每次通讯的日志，那么需要删除Webhook之后，才可以调用getUpdates查看chat_id
+
+## 项目构成
+0. Composer
+1. DotEnv
+2. Monolog
+
+## 更改项
+2019-05-13
+1. 入口文件`index.php`还是过于臃肿，如何精简，参考Laravel/Lumen
+2. 数据库，图灵，tg，注册各自的服务，看如何服务化
