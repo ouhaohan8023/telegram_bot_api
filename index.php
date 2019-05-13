@@ -47,12 +47,10 @@ if(!empty($input)){
     case '/':
       // 机器人命令，获取对应命令操作
       $command = ltrim($input['message'],'/');
-      if (in_array($command,$commandFunc)) {
-        doCommand($command);
-      }
+      $systemMsg = doCommand($command,$commandFunc);
       break;
     case '&':
-      doCount($input['message']->text);
+      $systemMsg = doCount($input['message']->text);
       break;
     default:
       // 图灵
@@ -76,8 +74,12 @@ if(!empty($input)){
   echo 'ok';
 }
 
-function doCommand($command)
+function doCommand($command,$func)
 {
+  if (!in_array($command,$func)) {
+    $systemMsg = '';
+    return $systemMsg;
+  }
   switch ($command) {
     case 'help':
       $systemMsg = "# 1. 计算人民币消耗：公式(人民币*(高汇率-低汇率)/低汇率) \r\n";
