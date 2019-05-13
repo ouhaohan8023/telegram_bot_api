@@ -42,11 +42,13 @@ if(!empty($input)){
   $tg->telegramFunction($method,$msg);
 
   $firstStr = substr($input['message']->text,0,1);
+  $base->log->info('标识符：'.$firstStr);
 
   switch ($firstStr) {
     case '/':
       // 机器人命令，获取对应命令操作
       $command = ltrim($input['message'],'/');
+      $base->log->info('命令：'.$command);
       $systemMsg = doCommand($command,$commandFunc);
       break;
     case '&':
@@ -114,7 +116,9 @@ function doCount($command)
       break;
     case '2':
       // peso话费盈利
-      $numResult = sprintf('%.2f',(((floatval($arr[2]))/floatval($arr[3]))-((floatval($arr[2]))/floatval($arr[4])))*0.996);
+      $actuallyPay =floatval($arr[2])/floatval($arr[3]);
+      $numResult = sprintf('%.2f',
+          ($actuallyPay-((floatval($arr[2]))/floatval($arr[4])))-($actuallyPay*0.996));
       $systemMsg = "# Peso：".$arr[2]."元 \r\n";
       $systemMsg .= "# 话费设置汇率：".$arr[3]." \r\n";
       $systemMsg .= "# 人民币换Peso汇率：".$arr[4]." \r\n";
