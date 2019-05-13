@@ -3,7 +3,7 @@ namespace App;
 /**
  * 数据库类
  */
-
+use mysqli;
 class Mysql{
   /**
    * 链接数据库
