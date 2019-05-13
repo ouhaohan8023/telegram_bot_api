@@ -4,6 +4,8 @@ use App\Mysql;
 use App\Telegram;
 use App\Tulin;
 use App\Base;
+use Dotenv\Dotenv;
+
 //require_once('Base.class.php');
 //require_once('Mysql.class.php');
 //require_once('Telegram.class.php');
@@ -13,6 +15,9 @@ use App\Base;
 $commandFunc = [
     'help',//帮助
 ];
+$dotenv = new Dotenv(__DIR__);
+$dotenv->load();
+
 $base = new Base();
 
 //$msg = '早上好';
