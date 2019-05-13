@@ -67,6 +67,13 @@ if(!empty($input)){
       $systemMsg .= "# 高汇率：".$arr[2]." \r\n";
       $systemMsg .= "# 低汇率：".$arr[3]." \r\n";
       $systemMsg .= "# 消耗：".$numResult."元 ";
+      $backMsg['reply_markup'] = [
+          'inline_keyboard' => [
+              'text' => 'go',
+              'url' => 'www.google.com'
+          ]
+      ];
+
       break;
     default:
       // 图灵
