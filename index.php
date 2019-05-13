@@ -47,7 +47,7 @@ if(!empty($input)){
   switch ($firstStr) {
     case '/':
       // 机器人命令，获取对应命令操作
-      $command = ltrim($input['message'],'/');
+      $command = substr($input['message'],1);
       $base->log->info('命令：'.$command);
       $systemMsg = doCommand($command,$commandFunc);
       break;
