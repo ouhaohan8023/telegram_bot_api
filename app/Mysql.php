@@ -9,7 +9,7 @@ class Mysql{
    * 链接数据库
    */
   public function connect($ip,$username,$pwd,$data){
-    $conn = new mysqli($ip, $username, $pwd);
+    $conn = new \mysqli($ip, $username, $pwd);
     if ($conn->connect_error) {
       die("连接失败: " . $conn->connect_error);
     }
