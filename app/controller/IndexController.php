@@ -5,8 +5,6 @@ use App\Mysql;
 use App\Telegram;
 use App\Tulin;
 use App\Base;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 
 class IndexController{
   public function index ()
