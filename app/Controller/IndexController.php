@@ -1,12 +1,11 @@
 <?php
 namespace App\Controller;
 
-use App\Mysql;
 use App\Telegram;
 use App\Tulin;
 use App\Base;
 
-class IndexController{
+class IndexController extends BaseController{
   public function index ()
   {
     // 方法定义
@@ -14,16 +13,7 @@ class IndexController{
         'help',//帮助
     ];
 
-
     $base = new Base();
-
-// 链接数据库
-//$mysql = new Mysql();
-//$ip = getenv('MYSQL_REMOTE');
-//$user = getenv('MYSQL_USER');
-//$pwd = getenv('MYSQL_PWD');
-//$data = getenv('MYSQL_DATA');
-//$con = $mysql->connect($ip,$user,$pwd,$data);
     $tg = new Telegram();
     $input = $tg->getParams();
 
