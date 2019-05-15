@@ -12,8 +12,8 @@ class Request
     $params = self::getParams();
     $route = self::getRoute($params);
     $doRoute = self::doRoute($route);
+//    var_dump($params,$route,$doRoute);die;
     return self::doClassFunc($doRoute,$params);
-//    return 1;
   }
 
   /**
@@ -30,8 +30,11 @@ class Request
    */
   public static function getRoute($params)
   {
-    return strstr($_SERVER["REQUEST_URI"],'?'.$params,true);
-//    return $_SERVER["REQUEST_URI"];
+    if ($params && $_SERVER['REQUEST_METHOD'] == 'GET') {
+      return strstr($_SERVER["REQUEST_URI"],'?'.$params,true);
+    } else {
+      return $_SERVER["REQUEST_URI"];
+    }
   }
 
   /**
@@ -40,7 +43,11 @@ class Request
    */
   public static function getParams()
   {
-    return $_SERVER["QUERY_STRING"];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      return file_get_contents('php://input', 'r');
+    } else {
+      return $_SERVER["QUERY_STRING"];
+    }
   }
 
   /**
