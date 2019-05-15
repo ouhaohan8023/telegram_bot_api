@@ -64,7 +64,7 @@ class IndexController{
       $method = 'sendMessage';
       $backMsg['chat_id'] = $input['message']->chat->id;
       $backMsg['text'] = $systemMsg;
-      $backMsg['parse_mode'] = 'Markdown';
+//      $backMsg['parse_mode'] = 'Markdown';
       $tg->telegramFunction($method,$backMsg);
       $base->log->info('完成');
 
@@ -88,12 +88,13 @@ class IndexController{
     }
     switch ($command) {
       case 'help':
-        $systemMsg = "# 1. 计算人民币消耗：公式(人民币*(高汇率-低汇率)/低汇率) \r\n";
-        $systemMsg .= "# 使用方法：&1&人民币&高汇率&低汇率 \r\n";
-        $systemMsg .= "# 例如：&1&20000&7.62&7.48 \r\n";
-        $systemMsg .= "# 2. 计算话费Peso盈利：公式 ((Peso/话费设置汇率)-(Peso/人民币换Peso汇率))*（1-微信费率) \r\n";
-        $systemMsg .= "# 使用方法：&2&Peso&话费设置汇率&人民币换Peso汇率 \r\n";
-        $systemMsg .= "# 例如：&2&500&7.3&7.5 \r\n";
+        $systemMsg = " 1. 计算人民币消耗：公式(人民币*(高汇率-低汇率)/低汇率) \r\n";
+        $systemMsg .= " 使用方法：&1&人民币&高汇率&低汇率 \r\n";
+        $systemMsg .= " 例如：&1&20000&7.62&7.48 \r\n";
+        $systemMsg .= " \r\n";
+        $systemMsg .= " 2. 计算话费Peso盈利：公式 ((Peso/话费设置汇率)-(Peso/人民币换Peso汇率))X(1-微信费率) \r\n";
+        $systemMsg .= " 使用方法：&2&Peso&话费设置汇率&人民币换Peso汇率 \r\n";
+        $systemMsg .= " 例如：&2&500&7.3&7.5 \r\n";
         break;
       default:
         $systemMsg = '';
