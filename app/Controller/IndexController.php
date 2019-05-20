@@ -113,7 +113,7 @@ class IndexController extends BaseController{
         // peso话费盈利
         $actuallyPay =floatval($arr[2])/floatval($arr[3]);
         $numResult = sprintf('%.2f',
-            ($actuallyPay-((floatval($arr[2]))/floatval($arr[4])))-($actuallyPay*0.004));
+            ($actuallyPay-((floatval($arr[2]))/floatval($arr[4])))-($actuallyPay*0.03));
         $systemMsg = "# Peso：".$arr[2]."p \r\n";
         $systemMsg .= "# 话费设置汇率：".$arr[3]." \r\n";
         $systemMsg .= "# 人民币换Peso汇率：".$arr[4]." \r\n";
