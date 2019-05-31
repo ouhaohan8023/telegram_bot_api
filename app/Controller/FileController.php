@@ -45,6 +45,7 @@ class FileController extends BaseController
   protected function readFiles($path)
   {
     $handle = @fopen($path, "r");
+    $lines = 0;
     if ($handle) {
       while (($buffer = fgets($handle, 16384)) !== false) {
         if ($this->ableLine($buffer)) {
@@ -182,8 +183,10 @@ class FileController extends BaseController
   {
     $num = 0;
     foreach ($data as $k => $v) {
-      $check = "SELECT phone FROM log_data WHERE phone = '".array_get($v,'phone')."';";
+      $check = "SELECT card_no FROM log_data WHERE card_no = '".array_get($v,'card_no')."';";
+
       $checkData = $this->con->query($check);
+//      var_dump($checkData->num_rows,$v,$check);
       if ($checkData->num_rows) {
         continue;
       }
