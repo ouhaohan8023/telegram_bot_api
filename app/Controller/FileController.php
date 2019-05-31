@@ -8,11 +8,7 @@ class FileController extends BaseController
   {
     $path = __DIR__ . '/../../logs/';
     $files = $this->getFiles($path);
-//    var_dump($files);
     foreach ($files as $k => $v) {
-      // 读取目录下的所有文件
-//      echo '<pre/>';
-//      print_r($this->readFiles($path . $v));
       $rowData = $this->readFiles($path . $v);
       $insertNum = $this->saveToDatabase($rowData);
       echo '<pre/>';
@@ -29,12 +25,15 @@ class FileController extends BaseController
   {
     $dr = opendir($path);
     $data = [];
-    while (($files[] = readdir($dr)) !== false)
-      foreach ($files as $k => $v) {
-        if ($v != '.' && $v != '..' && $v != '') {
-          $data[] = $v;
-        }
+
+    while ($f = readdir($dr)) {
+      $files[] = $f;
+    }
+    foreach ($files as $k => $v) {
+      if ($v != '.' && $v != '..' && $v != '' && $v != false) {
+        $data[] = $v;
       }
+    }
     return ($data);
   }
 
@@ -183,15 +182,18 @@ class FileController extends BaseController
   {
     $num = 0;
     foreach ($data as $k => $v) {
-      $sql = "INSERT INTO log_data (name,phone,holder_id,province,city,branch,card_no) VALUES ('".array_get($v,'name')."','".array_get($v,'phone')."','".array_get($v,'holder_id')."','".array_get($v,'province')."','".array_get($v,'city')."','".array_get($v,'branch')."','".array_get($v,'card_no')."')";
+      $check = "SELECT phone FROM log_data WHERE phone = '".array_get($v,'phone')."';";
+      $checkData = $this->con->query($check);
+      if ($checkData->num_rows) {
+        continue;
+      }
+      $sql = "INSERT INTO log_data (name,phone,holder_id,province,city,branch,card_no) VALUES ('".array_get($v,'name')."','".array_get($v,'phone')."','".array_get($v,'holder_id')."','".array_get($v,'province')."','".array_get($v,'city')."','".array_get($v,'branch')."','".array_get($v,'card_no')."');";
       $sqlData = $this->con->query($sql);
-      var_dump($sql,$sqlData);die;
       if ($sqlData) {
         $num++;
       }
     }
 
     return $num;
-//    $row = mysqli_fetch_array($results)
   }
 }
